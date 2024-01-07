@@ -57,14 +57,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Login to Github Packages
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.G_TOKEN }}
-
-      - name: Build image and push to Docker Hub and GitHub Container Registry
+      - name: Build image and push to Docker Hub
         uses: docker/build-push-action@v2
         with:
           # relative path to the place where source code with Dockerfile is located
@@ -72,7 +65,6 @@ jobs:
           # Note: tags has to be all lower-case
           tags: |
             shivisis/gitops:${{ github.sha }}
-            ghcr.io/shivalikasisodia/gitops:${{ github.sha }}
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/master' }}
 
